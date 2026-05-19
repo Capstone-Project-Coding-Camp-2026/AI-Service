@@ -1,0 +1,20 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment lokal
+.venv/
+venv/
+env/
+ENV/
+test/
+
+# Configuration & IDE
+.vscode/
+.idea/
+.DS_Store
+
+# File rahasia
+.env
