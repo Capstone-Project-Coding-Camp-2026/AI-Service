@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from app.core.config import model_registry
-from app.routers import whatif, classify, forecast  # Impor ketiga router lengkap
+from app.routers import whatif, classify, forecast
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,6 +30,22 @@ async def lifespan(app: FastAPI):
         with open(nlp_json, "r") as f:
             model_registry.classify_metadata = json.load(f)
         print("[READY] Model 1 (NLP Classification) Berhasil Dimuat.")
+
+        # --- LOAD MODEL 2 ---
+        nlp_keras = os.path.join(BASE_DIR, "models", "forecast", "model_forecast.keras")
+        nlp_json = os.path.join(BASE_DIR, "models", "forecast", "metadata.json")
+        model_registry.forecast_model = tf.keras.models.load_model(nlp_keras, compile=False)
+        with open(nlp_json, "r") as f:
+            model_registry.forecast_metadata = json.load(f)
+        print("[READY] Model 2 (NLP Forecasting) Berhasil Dimuat.")
+
+                # --- LOAD MODEL 3 ---
+        nlp_keras = os.path.join(BASE_DIR, "models", "whatif", "model_whatif.keras")
+        nlp_json = os.path.join(BASE_DIR, "models", "whatif", "metadata.json")
+        model_registry.whatif_model = tf.keras.models.load_model(nlp_keras, compile=False)
+        with open(nlp_json, "r") as f:
+            model_registry.whatif_metadata = json.load(f)
+        print("[READY] Model 3 (NLP What-If) Berhasil Dimuat.")
         
     except Exception as e:
         print(f"[CRITICAL ERROR] Gagal memuat biner AI Monolith: {e}")
@@ -41,6 +57,8 @@ app = FastAPI(title="FinTime Dedicated AI Engine", lifespan=lifespan)
 
 # Daftarkan Seluruh Router Resmi
 app.include_router(classify.router)
+app.include_router(whatif.router)
+app.include_router(forecast.router)
 
 
 @app.get("/health")
