@@ -1,5 +1,5 @@
 fastapi[standard]
 pydantic
-tensorflow==2.21.0
+tensorflow-cpu==2.21.0
 keras==3.12.2
 numpy
