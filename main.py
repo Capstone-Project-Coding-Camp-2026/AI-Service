@@ -64,3 +64,11 @@ app.include_router(forecast.router)
 @app.get("/health")
 def health():
     return {"status": "healthy", "engine": "FastAPI Monolith Inference Server Ready"}
+
+@app.get("/")
+def read_root():
+    return {
+        "message": "Welcome to FinTime Dedicated AI Engine API",
+        "documentation": "/docs",
+        "status": "running"
+    }
