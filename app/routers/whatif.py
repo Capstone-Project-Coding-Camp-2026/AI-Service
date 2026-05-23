@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.whatif import WhatIfRequest, WhatIfResponse
-from app.services.whatif_service import WhatIfService
+from app.services.whatif import WhatIfService
 
 router = APIRouter(prefix="/predict", tags=["What-If Lab Simulation"])
 
